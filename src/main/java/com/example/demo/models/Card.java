@@ -15,6 +15,10 @@ public class Card {
     private final LocalDate expiryDate;
     private final String cvc;
 
+    public Card() {
+        this("");
+    }
+
     public Card(String cardHolderName) {
         this.cardId = currentCardNumber.get();
         this.cardNumber = createCardNumber();

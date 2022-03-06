@@ -8,18 +8,25 @@ public class Transaction {
     private final int transactionId;
     private final LocalDate transactionDate;
     private Status status;
-    private final int amount;
+    private int amount;
     private LocalDate refundDate;
     private LocalDate captureDate;
-    private final Card card;
-    private final User user;
+    private Card card;
+    private User user;
 
-    public Transaction(int amount, Card card, User user) {
+    public Transaction() {
+        this.transactionId = currTransactionId.getAndIncrement();
+        this.transactionDate = LocalDate.now();
+        this.status = Status.INITIATED;
+
+    }
+
+    public Transaction(int amount, User user) {
         this.transactionId = currTransactionId.getAndIncrement();
         this.transactionDate = LocalDate.now();
         this.amount = amount;
-        this.card = new Card(card);
         this.user = new User(user);
+        this.status = Status.INITIATED;
     }
 
     public Transaction(Transaction transaction) {
@@ -80,11 +87,38 @@ public class Transaction {
         return user;
     }
 
+    public void authorize(Card card) {
+        this.setStatus(Status.AUTHORIZED);
+        this.setCard(card);
+    }
+
+    public void setCard(Card card) {
+        this.card = new Card(card);
+    }
+
+    public void setUser(User user) {
+        this.user = new User(user);
+    }
+
     public enum Status {
         INITIATED,
         AUTHORIZED,
         CAPTURED,
         REFUNDED,
         CANCELLED
+    }
+
+    @Override
+    public String toString() {
+        return "Transaction{" +
+                "transactionId=" + transactionId +
+                ", transactionDate=" + transactionDate +
+                ", status=" + status +
+                ", amount=" + amount +
+                ", refundDate=" + refundDate +
+                ", captureDate=" + captureDate +
+                ", card=" + card +
+                ", user=" + user +
+                '}';
     }
 }
