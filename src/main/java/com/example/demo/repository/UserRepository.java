@@ -11,11 +11,6 @@ import java.util.Map;
 public class UserRepository {
     private final Map<Integer, UserDTO> idUserMap = new HashMap<>();
 
-    public UserRepository() {
-        User user0 = new User("Alex", "Blaj", "Cernavoda");
-        createUser(user0);
-    }
-
     public void createUser(User user) {
         UserDTO userDTO = new UserDTO(user);
         this.idUserMap.put(userDTO.getUserId(), userDTO);
